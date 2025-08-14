@@ -1,0 +1,9 @@
+# Tiny AutoDJ you can deploy on Render (Free) or any Docker host
+# Uses official Liquidsoap image
+FROM savonet/liquidsoap:2.2.5
+WORKDIR /app
+# Copy playlist and script
+COPY playlist.m3u /app/playlist.m3u
+COPY radio.liq /app/radio.liq
+# Run liquidsoap
+CMD ["liquidsoap", "/app/radio.liq"]
