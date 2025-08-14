@@ -1,7 +1,13 @@
-# Set the playlist
-playlist = playlist("playlist.m3u")
+# Load playlist safely
+playlist_source = playlist.safe("playlist.m3u")
 
-# Stream to Icecast server
+# Fallback to a silent track if playlist fails
+fallback_source = single("https://files.catbox.moe/98ueta.mp3")
+
+# Combine so stream never stops
+final_stream = fallback([playlist_source, fallback_source])
+
+# Stream to Icecast
 output.icecast(%mp3,
   host = "uk20freenew.listen2myradio.com",
   port = 37611,
@@ -10,4 +16,4 @@ output.icecast(%mp3,
   name = "My AutoDJ",
   description = "Streaming via Liquidsoap",
   genre = "Music"
-, playlist)
+, final_stream)
